@@ -21,8 +21,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-
-  
 Route::resource('/products', ProductController::class);
+
+Route::delete('myproductsDeleteAll', [ProductController::class, 'deleteAll']);
 
 require __DIR__.'/auth.php';

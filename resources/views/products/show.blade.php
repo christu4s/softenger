@@ -49,7 +49,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Details:</strong>
-                {{ $product->image }}
+                <img src="/image/{{ $product->image }}" width="50px" height="50px">
             </div>
         </div>
     </div>

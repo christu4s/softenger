@@ -46,11 +46,16 @@ class ProductController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $imageName = time().'.'.$request->image->extension();  
-     
-        $request->image->move(public_path('images'), $imageName);
+        $input = $request->all();
+  
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
     
-        Product::create($request->all());
+        Product::create($input);
      
         return redirect()->route('products.index')
                         ->with('success','Product created successfully.');
@@ -92,10 +97,20 @@ class ProductController extends Controller
             'price' => 'required',
             'upc' => 'required',
             'status' => 'required',
-            'image' => 'required',
-        ]);
+             ]);
     
-        $product->update($request->all());
+        $input = $request->all();
+  
+        if ($image = $request->file('image')) {
+            $destinationPath = 'image/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }else{
+            unset($input['image']);
+        }
+          
+        $product->update($input);
     
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');
@@ -113,5 +128,13 @@ class ProductController extends Controller
     
         return redirect()->route('products.index')
                         ->with('success','Product deleted successfully');
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        $product = new Product;
+        $product->whereIn('id',explode(",",$ids))->delete();
+        return response()->json(['success'=>"Products Deleted successfully."]);
     }
 }
