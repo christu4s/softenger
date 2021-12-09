@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            Products
         </h2>
     </x-slot>
 
@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <strong>Image:</strong>
                                     <input type="file" name="image" class="form-control">
-                                    <img src="images/{{ Session::get('image') }}">
+                                    <img src="/image/{{ $product->image }}" width="50px" height="50px">
                                 </div>
                             </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
